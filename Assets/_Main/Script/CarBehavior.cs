@@ -17,6 +17,8 @@ public class CarBehavior : MonoBehaviour
     [SerializeField] private Collider2D _bodyCollider;
     [SerializeField] VisualEffect _gasEffect;
     [SerializeField] ParticleSystem _explosionPrefab;
+    [SerializeField] private AudioSource _hornSound;
+    [SerializeField] private AudioSource _crashSound;
     
     
     private Rigidbody2D _rigidbody;
@@ -52,6 +54,7 @@ public class CarBehavior : MonoBehaviour
             .Subscribe(_ => Destroy(this.gameObject)).AddTo(this);
         
         _gasEffect.Play();
+        PlayHornSound();
     }
     
     private void Move()
@@ -61,16 +64,15 @@ public class CarBehavior : MonoBehaviour
         _move = this.FixedUpdateAsObservable()
             .Subscribe(_ => _rigidbody.AddForce(_speed * transform.right));
     }
-    
+     
     private void Stop()
     {
         _move?.Dispose();
         _gasEffect.Stop();
     }
-    
-    [ContextMenu("Crash")]
     private async void Crash()
     {
+        _crashSound.Play();
         var explosion = Instantiate(_explosionPrefab, this.transform.position, Quaternion.identity);
         explosion.Play();
         _move?.Dispose();
@@ -79,6 +81,13 @@ public class CarBehavior : MonoBehaviour
         await this.transform.DOScale(Vector3.zero, 0.5f).ToUniTask(cancellationToken:this.GetCancellationTokenOnDestroy());
         if(this != null)
             Destroy(this.gameObject);
+    }
+
+    private async void PlayHornSound()
+    {
+        _hornSound.Play();
+        await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken:this.GetCancellationTokenOnDestroy());
+        _hornSound.Play();
     }
 
     private void OnDestroy()

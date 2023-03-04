@@ -21,6 +21,7 @@ public class SuccessCanvasView : MonoBehaviour
         
         LevelPresenter.I.LevelProgressState
             .Where(state => state == StateType.Success)
+            .Delay(TimeSpan.FromSeconds(5))
             .Subscribe(_ =>
             {
                 OnSuccess();

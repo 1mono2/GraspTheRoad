@@ -54,7 +54,7 @@ public class CarBehavior : MonoBehaviour
             .Subscribe(_ => Destroy(this.gameObject)).AddTo(this);
         
         _gasEffect.Play();
-        PlayHornSound();
+        //PlayHornSound();
     }
     
     private void Move()

@@ -11,22 +11,33 @@ namespace PutAndHelp.DebugUI
     {
         [SerializeField] Image _fingerImage;
 
-        private void Update()
+        // private void Update()
+        // {
+        //     if (Input.touchCount > 0)
+        //     {
+        //         _fingerImage.gameObject.SetActive(true);
+        //         _fingerImage.transform.position = Input.GetTouch(0).position;
+        //         
+        //     }else
+        //         _fingerImage.gameObject.SetActive(false);
+        //     
+        // }
+        
+        public void OnFingerDown(LeanFinger finger)
         {
-            if (Input.touchCount > 0)
-            {
-                _fingerImage.gameObject.SetActive(true);
-                _fingerImage.transform.position = Input.GetTouch(0).position;
-                
-            }else
-                _fingerImage.gameObject.SetActive(false);
-            
+            _fingerImage.gameObject.SetActive(true);
+            _fingerImage.transform.position = finger.ScreenPosition;
         }
 
-        // public void MoveFinger(LeanFinger finger)
-        // {
-        //     _fingerImage.transform.position = finger.ScreenPosition;
-        // }
+        public void MoveFinger(LeanFinger finger)
+        {
+            _fingerImage.transform.position = finger.ScreenPosition;
+        }
+        
+        public void OnFingerUp(LeanFinger finger)
+        {
+            _fingerImage.gameObject.SetActive(false);
+        }
 
     }
 }

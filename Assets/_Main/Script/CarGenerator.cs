@@ -8,12 +8,13 @@ using UniRx.Triggers;
 
 public class CarGenerator : MonoBehaviour
 {
-    [SerializeField] private CarBehavior _carPrefab;
+    [SerializeField] private AbstractCarBehavior _carPrefab;
     [SerializeField] private GameObject _startPoint;
 
     [SerializeField] private float _distanceThreshold = 2f;
     [SerializeField] private float _generateInterval = 1f;
-    private CarBehavior _currentCar;
+    [SerializeField] private ParticleSystem _cloudPrefab;
+    private AbstractCarBehavior _currentCarPrefab;
     
     
     void Start()
@@ -24,12 +25,12 @@ public class CarGenerator : MonoBehaviour
             .ThrottleFirst(TimeSpan.FromSeconds(_generateInterval))
             .Subscribe(_ =>
             {
-                if (_currentCar == null)
+                if (_currentCarPrefab == null)
                 {
                     GenerateCar();
                     return;
                 }
-                if (CheckDistanceOver(_distanceThreshold, _currentCar.transform.position, _startPoint.transform.position))
+                if (CheckDistanceOver(_distanceThreshold, _currentCarPrefab.transform.position, _startPoint.transform.position))
                 {
                     GenerateCar();
                 }
@@ -38,8 +39,10 @@ public class CarGenerator : MonoBehaviour
     
     private void GenerateCar()
     {
-        _currentCar = Instantiate(_carPrefab, _startPoint.transform.position, Quaternion.identity);
-        var carRigidbody = _currentCar.GetComponent<Rigidbody2D>();
+        var cloud = Instantiate(_cloudPrefab, _startPoint.transform.position + new Vector3(0, 1, -1), Quaternion.identity);
+        cloud.Play();
+        _currentCarPrefab = Instantiate(_carPrefab, _startPoint.transform.position, Quaternion.identity);
+        var carRigidbody = _currentCarPrefab.GetComponent<Rigidbody2D>();
         carRigidbody.bodyType = RigidbodyType2D.Dynamic;
     }
 

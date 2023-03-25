@@ -15,6 +15,8 @@ public class LevelPresenter : SingletonMonoBehaviour<LevelPresenter>
     public LevelProgressStateReactiveProperty LevelProgressState => _levelProgressState;
     public Counter GoalCounter => _goalCounter;
     public int GoalCount => _goalCount;
+    
+    const string SAVE_STAGE_INDEX = "StageIndex";
 
     protected override void Awake()
     {
@@ -37,6 +39,7 @@ public class LevelPresenter : SingletonMonoBehaviour<LevelPresenter>
             {
                 TinySauce.OnGameFinished(true, _goalCounter.GetCount(),
                     $"Scene {SceneManager.GetActiveScene().buildIndex}");
+                OnSuccess();
 
             });
         _levelProgressState.Where(state => state == StateType.Fail)
@@ -51,6 +54,17 @@ public class LevelPresenter : SingletonMonoBehaviour<LevelPresenter>
     public void GameStart()
     {
         _levelProgressState.ExecuteTrigger(TriggerType.ToIngame);
+    }
+
+    private void OnSuccess()
+    {
+        SaveStage();
+    }
+
+    private void SaveStage()
+    {
+        PlayerPrefs.SetInt(SAVE_STAGE_INDEX, SceneManager.GetActiveScene().buildIndex);
+        PlayerPrefs.Save();
     }
 
     public void BackScene()

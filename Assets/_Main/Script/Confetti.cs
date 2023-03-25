@@ -11,11 +11,8 @@ public class Confetti : MonoBehaviour
 
     private void Start()
     {
-        this.OnTriggerEnter2DAsObservable()
-            .Subscribe(collider2D =>
-            {
-                if (collider2D.gameObject.CompareTag("Car"))
-                    _confetti.Play();
-            }).AddTo(this);
+        LevelPresenter.I.GoalCounter.Count
+            .Skip(1)
+            .Subscribe(_ => _confetti.Play()).AddTo(this);
     }
 }

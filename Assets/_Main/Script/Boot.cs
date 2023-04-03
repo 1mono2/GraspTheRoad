@@ -3,8 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using GoogleMobileAds.Api;
-using GoogleMobileAds.Common;
+//using GoogleMobileAds.Api;
+//using GoogleMobileAds.Common;
 using MoNo.Utility;
 
 public class Boot : MonoBehaviour
@@ -12,9 +12,6 @@ public class Boot : MonoBehaviour
     [SerializeField] bool _isShowAd = true;
     public bool isShowAd => _isShowAd;
     const string SAVE_STAGE_INDEX = "StageIndex";
-
-    //[SerializeField] private BannerAdGameObject _bannerAdGameObject;
-    BannerView bannerView;
 
     private void Awake()
     {
@@ -27,19 +24,21 @@ public class Boot : MonoBehaviour
         if (_isShowAd == false) return;
 
         // admob initialize
-        MobileAds.Initialize(initStatus =>
-        {
-            // Setting the same app key.
-            RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
-                .build();
-            MobileAds.SetRequestConfiguration(requestConfiguration);
-            // AdMobからのコールバックはメインスレッドで呼び出される保証がないため、次のUpdate()で呼ばれるようにMobileAdsEventExecutorを使用
-            //MobileAdsEventExecutor.ExecuteInUpdate();
-        });
+        // MobileAds.Initialize(initStatus =>
+        // {
+        //     // Setting the same app key.
+        //     RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+        //         .build();
+        //     MobileAds.SetRequestConfiguration(requestConfiguration);
+        //     // AdMobからのコールバックはメインスレッドで呼び出される保証がないため、次のUpdate()で呼ばれるようにMobileAdsEventExecutorを使用
+        //     //MobileAdsEventExecutor.ExecuteInUpdate();
+        // });
     }
     
     private void Start()
     {
+        // BannerAds.I.Initialize();
+        // InterstitialAds.I.Initialize();
         LoadScene();
     }
 

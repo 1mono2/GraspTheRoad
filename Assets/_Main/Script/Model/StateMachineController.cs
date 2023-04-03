@@ -26,8 +26,6 @@ namespace MoNo.Extensions
 
     public class StateMachineController : Singleton<StateMachineController>
     {
-
-
         private readonly StateMachine<StateType, TriggerType> _stateMachine;
 
         public StateMachineController() : base()
@@ -69,5 +67,6 @@ namespace MoNo.Extensions
         {
             _stateMachine.Update(deltaTime);
         }
+        
     }
 }

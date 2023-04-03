@@ -33,20 +33,20 @@ public class LevelPresenter : SingletonMonoBehaviour<LevelPresenter>
             .Subscribe(_ => _levelProgressState.ExecuteTrigger(TriggerType.ToSuccess)).AddTo(this);
         
         
-        TinySauce.OnGameStarted($"Scene {SceneManager.GetActiveScene().buildIndex}");
+        //TinySauce.OnGameStarted($"Scene {SceneManager.GetActiveScene().buildIndex}");
         _levelProgressState.Where(state => state == StateType.Success)
             .Subscribe(_ =>
             {
-                TinySauce.OnGameFinished(true, _goalCounter.GetCount(),
-                    $"Scene {SceneManager.GetActiveScene().buildIndex}");
+                //TinySauce.OnGameFinished(true, _goalCounter.GetCount(),
+                //    $"Scene {SceneManager.GetActiveScene().buildIndex}");
                 OnSuccess();
 
             });
         _levelProgressState.Where(state => state == StateType.Fail)
             .Subscribe(_ =>
             {
-                TinySauce.OnGameFinished(false, _goalCounter.GetCount(),
-                    $"Scene {SceneManager.GetActiveScene().buildIndex}");
+                //TinySauce.OnGameFinished(false, _goalCounter.GetCount(),
+                //    $"Scene {SceneManager.GetActiveScene().buildIndex}");
             });
 
     }
